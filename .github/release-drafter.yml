@@ -1,32 +1,32 @@
 # Docs: https://github.com/release-drafter/release-drafter/
-name-template: 'v$RESOLVED_VERSION'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
 change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
-      - 'major'
+      - "major"
   minor:
     labels:
-      - 'minor'
+      - "minor"
   patch:
     labels:
-      - 'patch'
+      - "patch"
   default: patch
 autolabeler:
-  # the major label is not set automatically, but should be set explicitly if there are any breaking changes.  
+  # the major label is not set automatically, but should be set explicitly if there are any breaking changes.
 
-  - label: 'minor'
+  - label: "minor"
     branch:
       - '/feature\/.+/'
-  - label: 'patch'
+  - label: "patch"
     branch:
       - '/bug\/.+/'
       - '/docs\/.+/'
       - '/fix\/.+/'
       - '/patch\/.+/'
       - '/dependabot\/.+/'
-  
+
 template: |
   ## Changes
 
