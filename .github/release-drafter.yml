@@ -25,7 +25,6 @@ autolabeler:
       - '/docs\/.+/'
       - '/fix\/.+/'
       - '/patch\/.+/'
-      - '/dependabot\/.+/'
 
 template: |
   ## Changes
