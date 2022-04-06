@@ -2,4 +2,5 @@ plan: false
 
 vars:
   service: .github
-  squad: nasa
+  squad: aura
+  domain: developer-productivity
