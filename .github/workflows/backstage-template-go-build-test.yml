@@ -1,0 +1,53 @@
+name: Build and Test
+
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
+    secrets:
+      personalAccessToken:
+        required: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - name: Rewrite module name
+        run: |
+          templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
+          validModuleName='go.lunarway.com/update'
+          sed -i "s|$templatedModuleName|$validModuleName|" ./template/go.mod ./template/cmd/main.go
+
+      # enable access to private Git repositories
+      - name: Configure git for private modules
+        env:
+          TOKEN: ${{ secrets.personalAccessToken }}
+        run: git config --global url."https://HamAstrochimp:${TOKEN}@github.com".insteadOf "https://github.com"
+
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Build
+        run: |
+          cd template && go build ./...
+
+      - name: Tests
+        run: |
+          cd template && go test -v ./...
