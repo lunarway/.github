@@ -1,6 +1,6 @@
 plan: false
 
 vars:
-  service: .github
+  service: github
   squad: aura
   domain: developer-productivity
