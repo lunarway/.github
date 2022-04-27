@@ -38,7 +38,7 @@ jobs:
         run: |
           templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
           validModuleName='go.lunarway.com/update'
-          sed -i "s|$templatedModuleName|$validModuleName|" ./template/go.mod ./template/cmd/main.go
+          find ./template -type f -exec sed -i "s|$templatedModuleName|$validModuleName|" {} +
 
       # enable access to private Git repositories
       - name: Configure git for private modules
@@ -73,7 +73,7 @@ jobs:
         run: |
           templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
           validModuleName='go.lunarway.com/update'
-          sed -i "s|$validModuleName|$templatedModuleName|" ./template/go.mod ./template/cmd/main.go
+          find ./template -type f -exec sed -i "s|$validModuleName|$templatedModuleName|" {} +
 
       - name: Create Pull Request
         id: create-pull-request
