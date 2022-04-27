@@ -1,0 +1,94 @@
+name: Update dependencies
+
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
+      committer:
+        required: true
+        type: string
+    secrets:
+      personalAccessToken:
+        required: true
+      gpgPrivateKey:
+        required: true
+      gpgPassphrase:
+        required: true
+
+env:
+  GOPRIVATE: go.lunarway.com,github.com/lunarway
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - name: Rewrite module name
+        run: |
+          templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
+          validModuleName='go.lunarway.com/update'
+          sed -i "s|$templatedModuleName|$validModuleName|" ./template/go.mod ./template/cmd/main.go
+
+      # enable access to private Git repositories
+      - name: Configure git for private modules
+        env:
+          TOKEN: ${{ secrets.personalAccessToken }}
+        run: git config --global url."https://HamAstrochimp:${TOKEN}@github.com".insteadOf "https://github.com"
+
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.gpgPrivateKey }}
+          passphrase: ${{ secrets.gpgPassphrase }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Update dependencies
+        run: |
+          cd template
+          go list -f '{{if not (or .Main .Indirect)}}{{.Path}}{{end}}' -m all | xargs go get
+          go mod tidy
+
+      - name: Revert rewrite module name
+        run: |
+          templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
+          validModuleName='go.lunarway.com/update'
+          sed -i "s|$validModuleName|$templatedModuleName|" ./template/go.mod ./template/cmd/main.go
+
+      - name: Create Pull Request
+        id: create-pull-request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          commit-message: Update dependencies
+          committer: ${{ inputs.committer }}
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: true
+          branch: patch/dependencies
+          delete-branch: true
+          title: "Update dependencies"
+          body: |
+            This is an automated update of dependencies
+          team-reviewers: |
+            owners
+          draft: false
