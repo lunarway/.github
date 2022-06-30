@@ -26,6 +26,12 @@ autolabeler:
       - '/fix\/.+/'
       - '/patch\/.+/'
 
+categories:
+  - title: "Dependency Updates"
+    collapse-after: 3
+    labels:
+      - "dependencies"
+
 template: |
   ## Changes
 
