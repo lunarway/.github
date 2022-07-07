@@ -26,8 +26,8 @@ jobs:
 
       - name: Rewrite module name
         run: |
-          templatedModuleName='go.lunarway.com/${{ '${{values.name}}' }}'
-          validModuleName='go.lunarway.com/update'
+          templatedModuleName='github.com/lunarway/${{ '${{values.name}}' }}'
+          validModuleName='github.com/lunarway/update'
           find ./template -type f -exec sed -i "s|$templatedModuleName|$validModuleName|" {} +
 
       # enable access to private Git repositories
