@@ -18,13 +18,15 @@ autolabeler:
 
   - label: "minor"
     branch:
-      - '/feature\/.+/'
+      - '/feature\/.+/'      
+      - '/feat\/.+/'
   - label: "patch"
     branch:
       - '/bug\/.+/'
       - '/docs\/.+/'
       - '/fix\/.+/'
       - '/patch\/.+/'
+      - '/chore\/.+/'
 
 categories:
   - title: "Dependency Updates"
