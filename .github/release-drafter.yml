@@ -14,17 +14,17 @@ version-resolver:
       - "patch"
   default: patch
 autolabeler:
-  # the major label is not set automatically, but should be set explicitly if there are any breaking changes.
-
   - label: "minor"
     branch:
-      - '/feature\/.+/'
+      - '/feature\/.+/'      
+      - '/feat\/.+/'
   - label: "patch"
     branch:
       - '/bug\/.+/'
       - '/docs\/.+/'
       - '/fix\/.+/'
       - '/patch\/.+/'
+      - '/chore\/.+/'
 
 categories:
   - title: "Dependency Updates"
