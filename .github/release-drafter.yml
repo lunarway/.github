@@ -18,7 +18,7 @@ autolabeler:
 
   - label: "minor"
     branch:
-      - '/feature\/.+/'      
+      - '/feature\/.+/'
       - '/feat\/.+/'
   - label: "patch"
     branch:
@@ -27,6 +27,9 @@ autolabeler:
       - '/fix\/.+/'
       - '/patch\/.+/'
       - '/chore\/.+/'
+
+exclude-labels:
+  - "skip-changelog"
 
 categories:
   - title: "Dependency Updates"
