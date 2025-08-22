@@ -82,7 +82,7 @@ jobs:
           token: ${{ secrets.personalAccessToken }}
           commit-message: Update dependencies
           committer: ${{ inputs.committer }}
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          author: ${{ inputs.committer }}
           signoff: true
           branch: patch/dependencies
           delete-branch: true
