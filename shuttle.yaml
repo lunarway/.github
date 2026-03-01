@@ -2,5 +2,5 @@ plan: false
 
 vars:
   service: github
-  squad: esa
+  squad: cit
   domain: developer-productivity
