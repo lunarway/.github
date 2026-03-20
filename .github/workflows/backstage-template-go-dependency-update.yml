@@ -87,6 +87,7 @@ jobs:
           branch: patch/dependencies
           delete-branch: true
           title: "Update dependencies"
+          labels: dependencies
           body: |
             This is an automated update of dependencies
           team-reviewers: |
