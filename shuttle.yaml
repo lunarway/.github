@@ -4,3 +4,9 @@ vars:
   service: github
   squad: esa
   domain: developer-productivity
+  houston:
+    # Endpoint map used by plans/workflows that integrate with Houston.
+    endpoints:
+      modules: /houston/modules
+      structure: /houston/module-structure
+      health: /houston/health
