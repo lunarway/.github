@@ -10,4 +10,4 @@ Visit https://lunar.app and get more out of your money.
 
 ## Want to learn more about our technology stack?
 
-Check out https://tech.lunar.app to read blog posts, find talks, listen to podcasts and more or dive into the repositories in this organization.
+Check out https://engineering.lunar.app to read blog posts, find talks, listen to podcasts and more or dive into the repositories in this organization.
